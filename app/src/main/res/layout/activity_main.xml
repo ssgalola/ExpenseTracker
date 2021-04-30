@@ -26,6 +26,7 @@
         android:layout_below="@+id/tv_header"/>
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_expense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

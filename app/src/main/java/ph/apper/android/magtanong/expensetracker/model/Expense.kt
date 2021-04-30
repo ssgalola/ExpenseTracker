@@ -1,6 +1,6 @@
 package ph.apper.android.magtanong.expensetracker.model
 
-data class Expense(val expense:String, val amount:Double, var category:ExpenseCategory) {
+data class Expense(val expense:String, var amount:Double, var category:ExpenseCategory) {
 
     // just copied this from ShowTracker, di ko alam ginagawa nito
     constructor() : this("", 0.0, ExpenseCategory.Others)
