@@ -4,6 +4,8 @@ import android.graphics.Color
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Window
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.PieData
@@ -14,6 +16,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_main.*
 import ph.apper.android.magtanong.expensetracker.adapter.ExpenseAdapter
 import ph.apper.android.magtanong.expensetracker.model.Expense
+import ph.apper.android.magtanong.expensetracker.model.MY_COLORS
 import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
@@ -30,6 +33,7 @@ class MainActivity : AppCompatActivity() {
     var entries = ArrayList<PieEntry>()
     var categs = arrayOf("Needs", "Wants", "Savings", "Investments", "Others")
     var totals = floatArrayOf(500F, 800F, 1000F, 700F, 200F)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,16 +57,22 @@ class MainActivity : AppCompatActivity() {
 
     // format pie chart
     private fun setupPieChart() {
+        var nhg_bold: Typeface? = ResourcesCompat.getFont(this.applicationContext, R.font.nhg_bold)
+
         pieChart!!.isDrawHoleEnabled = true
         pieChart!!.holeRadius = 50F
         pieChart!!.transparentCircleRadius = 53F
         pieChart!!.setUsePercentValues(true)
         pieChart!!.setEntryLabelTextSize(10f)
-        pieChart!!.setEntryLabelColor(Color.BLACK)
+        pieChart!!.setEntryLabelColor(Color.WHITE)
+        pieChart!!.setEntryLabelTypeface(nhg_bold)
         pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
 
         pieChart!!.setCenterTextSize(20f)
         pieChart!!.description.isEnabled = false
+
+        val l = pieChart!!.legend
+        l.isEnabled = false
     }
 
     // load data
@@ -70,22 +80,24 @@ class MainActivity : AppCompatActivity() {
         for (i in categs.indices) {
             entries.add(PieEntry(totals[i], categs[i]))
         }
-        // entries.clear();
+        // entries.clear(); <- clear entries
+        // pieChart.invalidate(); <- refresh
 
         val colors = ArrayList<Int>()
-        for (color in ColorTemplate.MATERIAL_COLORS) {
+        for (color in MY_COLORS) {
             colors.add(color)
         }
-        for (color in ColorTemplate.VORDIPLOM_COLORS) {
-            colors.add(color)
-        }
+
+        var nhg_roman: Typeface? = ResourcesCompat.getFont(this.applicationContext, R.font.nhg_roman)
+
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
         val data = PieData(dataSet)
         data.setDrawValues(true)
         data.setValueFormatter(PercentFormatter(pieChart))
         data.setValueTextSize(12f)
-        data.setValueTextColor(Color.BLACK)
+        data.setValueTextColor(Color.WHITE)
+        data.setValueTypeface(nhg_roman)
         pieChart!!.data = data
         pieChart!!.invalidate()
 
@@ -116,7 +128,7 @@ to-do:
 2. [fixed] fix the main activity layout (the chart and recyclerview alignment is weird)
     --pacheck nung sinend kong pie chart sa telegram paapprove lang boss then integrate ko--
 3. cardview layout
-4. ako gagawa nito ah
+4. night mode proof
 
 pag mas marami nang code:
 1. integrate pie chart with expense tracker data

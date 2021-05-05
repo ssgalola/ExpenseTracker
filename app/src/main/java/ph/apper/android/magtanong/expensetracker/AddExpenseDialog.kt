@@ -21,6 +21,7 @@ class  AddExpenseDialog : DialogFragment() {
 
         fun addExpense(expense: Expense) {
             expenseList.add(expense)
+            MainActivity.updateAdapter()
         }
     }
 
