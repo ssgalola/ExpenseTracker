@@ -15,4 +15,10 @@
     <color name="lightGrey">#97A5A7</color>
     <color name="darkGrey">#435A64</color>
 
+    <color name="needs">#EF6D00</color>
+    <color name="wants">#65B4F4</color>
+    <color name="investments">#1976D2</color>
+    <color name="savings">#97A5A7</color>
+    <color name="others">#435A64</color>
+
 </resources>

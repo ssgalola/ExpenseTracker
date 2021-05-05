@@ -1,14 +1,17 @@
 package ph.apper.android.magtanong.expensetracker
 
+import android.graphics.Color
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.anychart.AnyChart
-import com.anychart.AnyChartView
-import com.anychart.chart.common.dataentry.DataEntry
-import com.anychart.chart.common.dataentry.ValueDataEntry
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_add_expense.*
 import ph.apper.android.magtanong.expensetracker.adapter.ExpenseAdapter
 import ph.apper.android.magtanong.expensetracker.model.Expense
 import java.util.ArrayList
@@ -23,16 +26,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    var anyChartView: AnyChartView? = null
-    var categs = arrayOf("Wants", "Needs", "Recurring", "Sporadic", "Investment", "Others")
-    var earnings = doubleArrayOf(500.00, 800.00, 1000.00, 700.00, 1500.00, 300.00)
+    private var pieChart: PieChart? = null
+    var entries = ArrayList<PieEntry>()
+    var categs = arrayOf("Needs", "Wants", "Savings", "Investments", "Others")
+    var totals = floatArrayOf(500F, 800F, 1000F, 700F, 200F)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        anyChartView = findViewById(R.id.chart_pie)
-        setupPieChart();
+        pieChart = findViewById(R.id.chart_pie)
+        setupPieChart()
+        loadPieChartData()
 
         // open 'add expense' dialog window
         fab_add.setOnClickListener {
@@ -46,15 +51,44 @@ class MainActivity : AppCompatActivity() {
         rv_expense.adapter = expenseAdapter
     }
 
-    // need to decouple this, put it in ExpenseAdapter? basta kung san din uupdate yung RecyclerView
-    fun setupPieChart() {
-        val pie = AnyChart.pie()
-        val dataEntries: MutableList<DataEntry> = ArrayList()
+    // format pie chart
+    private fun setupPieChart() {
+        pieChart!!.isDrawHoleEnabled = true
+        pieChart!!.holeRadius = 50F
+        pieChart!!.transparentCircleRadius = 53F
+        pieChart!!.setUsePercentValues(true)
+        pieChart!!.setEntryLabelTextSize(10f)
+        pieChart!!.setEntryLabelColor(Color.BLACK)
+        pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
+
+        pieChart!!.setCenterTextSize(20f)
+        pieChart!!.description.isEnabled = false
+    }
+
+    // load data
+    private fun loadPieChartData() {
         for (i in categs.indices) {
-            dataEntries.add(ValueDataEntry(categs[i], earnings[i]))
+            entries.add(PieEntry(totals[i], categs[i]))
         }
-        pie.data(dataEntries)
-        anyChartView!!.setChart(pie)
+        // entries.clear();
+
+        val colors = ArrayList<Int>()
+        for (color in ColorTemplate.MATERIAL_COLORS) {
+            colors.add(color)
+        }
+        for (color in ColorTemplate.VORDIPLOM_COLORS) {
+            colors.add(color)
+        }
+        val dataSet = PieDataSet(entries, "")
+        dataSet.colors = colors
+        val data = PieData(dataSet)
+        data.setDrawValues(true)
+        data.setValueFormatter(PercentFormatter(pieChart))
+        data.setValueTextSize(12f)
+        data.setValueTextColor(Color.BLACK)
+        pieChart!!.data = data
+        pieChart!!.invalidate()
+
     }
 
     fun updatePieChart(expense: Expense) {
@@ -63,14 +97,13 @@ class MainActivity : AppCompatActivity() {
         var e_category = expense.category.toString()
 
         when (e_category) {
-            "Wants" -> earnings[0] += e_amount
-            "Needs" -> earnings[1] += e_amount
-            "Recurring" -> earnings[2] += e_amount
-            "Sporadic" -> earnings[3] += e_amount
-            "Investment" -> earnings[4] += e_amount
-            "Others" -> earnings[5] += e_amount
+            "Needs" -> totals[0] += e_amount
+            "Wants" -> totals[1] += e_amount
+            "Savings" -> totals[2] += e_amount
+            "Investment" -> totals[3] += e_amount
+            "Others" -> totals[4] += e_amount
         }
-        setupPieChart()
+        loadPieChartData()
     }
 }
 
@@ -79,8 +112,8 @@ class MainActivity : AppCompatActivity() {
 --ganto comments ni sharmaine--
 
 to-do:
-1. show categories in spinner --sori nagawa ko na to bago ko nabasa notes ahu--
-2. fix the main activity layout (the chart and recyclerview alignment is weird)
+1. [fixed] show categories in spinner --sori nagawa ko na to bago ko nabasa notes ahu--
+2. [fixed] fix the main activity layout (the chart and recyclerview alignment is weird)
     --pacheck nung sinend kong pie chart sa telegram paapprove lang boss then integrate ko--
 3. cardview layout
 4. ako gagawa nito ah

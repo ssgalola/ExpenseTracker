@@ -7,16 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Button
 import androidx.fragment.app.DialogFragment
 import kotlinx.android.synthetic.main.fragment_add_expense.*
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
-import ph.apper.android.magtanong.expensetracker.adapter.ExpenseAdapter
 import ph.apper.android.magtanong.expensetracker.model.Expense
 import ph.apper.android.magtanong.expensetracker.model.ExpenseCategory
 import java.util.ArrayList
 
-class AddExpenseDialog : DialogFragment() {
+class  AddExpenseDialog : DialogFragment() {
 
     companion object {
         var expenseList: ArrayList<Expense> = ArrayList()
@@ -40,7 +38,7 @@ class AddExpenseDialog : DialogFragment() {
         view.btn_add.setOnClickListener {
 
             var expense_name = et_add_expense.text.toString()
-            var amount = et_add_amount.text.toString().toDouble()
+            var amount = et_add_amount.text.toString().toFloat()
             var category = spinner_categ.selectedItem as String
 
             var expense = Expense(expense_name, amount, ExpenseCategory.getCategory(category))
@@ -66,9 +64,8 @@ class AddExpenseDialog : DialogFragment() {
         var categoryArray = arrayOf(
             ExpenseCategory.Needs.toString(),
             ExpenseCategory.Wants.toString(),
-            ExpenseCategory.Investment.toString(),
-            ExpenseCategory.Recurring.toString(),
-            ExpenseCategory.Sporadic.toString(),
+            ExpenseCategory.Savings.toString(),
+            ExpenseCategory.Investments.toString(),
             ExpenseCategory.Others.toString()
         )
 

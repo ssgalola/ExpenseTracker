@@ -48,4 +48,11 @@ dependencies {
 
     implementation 'com.github.AnyChart:AnyChart-Android:1.1.2'
     implementation 'com.android.support:multidex:1.0.3'
+
+    // card view
+    implementation 'androidx.cardview:cardview:1.0.0'
+
+    // MP Pie Chart
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
 }
