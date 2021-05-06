@@ -1,5 +1,6 @@
 package ph.apper.android.magtanong.expensetracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -39,11 +40,15 @@ class  AddExpenseDialog : DialogFragment() {
         view.btn_add.setOnClickListener {
 
             var expense_name = et_add_expense.text.toString()
-            var amount = et_add_amount.text.toString().toFloat()
+            var amount = et_add_amount.text.toString()
             var category = spinner_categ.selectedItem as String
 
-            var expense = Expense(expense_name, amount, ExpenseCategory.getCategory(category))
+            Log.d("amount @ btn", amount.toString())
+
+            var expense = Expense(expense_name, amount.toFloat(), ExpenseCategory.getCategory(category))
             addExpense(expense)
+
+            broadcastExpense(expense)
 
             dismiss()
 
@@ -87,6 +92,17 @@ class  AddExpenseDialog : DialogFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 //do nothing
             }
+        }
+    }
+
+    fun broadcastExpense(expense: Expense){
+        Intent().also {
+            it.setAction("ph.apper.android.api.broadcast.SENDEXPENSE")
+            it.putExtra("Expense Amount", expense.amount)
+            it.putExtra("Expense Category", expense.category.toString())
+            context!!.sendBroadcast(it)
+
+            Log.d("amount@broadcastExpense", expense.amount.toString())
         }
     }
 }
