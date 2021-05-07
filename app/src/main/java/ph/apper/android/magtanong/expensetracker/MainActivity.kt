@@ -55,6 +55,7 @@ class MainActivity : AppCompatActivity() {
     var totals = floatArrayOf(0F, 0F, 0F, 0F, 0F)
     var entries = ArrayList<PieEntry>()
 
+
     fun populateEntries(){
         entries.add(PieEntry(totals[0], categs[0]))
         entries.add(PieEntry(totals[1], categs[1]))
@@ -63,11 +64,28 @@ class MainActivity : AppCompatActivity() {
         entries.add(PieEntry(totals[4], categs[4]))
     }
 
+    /*
+    fun populateEntries() {
+        for (i in categs.indices) {
+            if (totals[i] > 0F) {
+                entries.add(PieEntry(totals[i], categs[i]))
+            } else {
+                entries.add(PieEntry(totals[i], ""))
+            }
+        }
+    }
+    */
+
+    fun populateEntries(totals:Float, categs:String) {
+        entries.add(PieEntry(totals, categs))
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         pieChart = findViewById(R.id.chart_pie)
+
         populateEntries()
         setupPieChart()
         loadPieChartData()
@@ -98,7 +116,6 @@ class MainActivity : AppCompatActivity() {
         pieChart!!.setEntryLabelColor(Color.WHITE)
         pieChart!!.setEntryLabelTypeface(nhg_bold)
         pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
-
         pieChart!!.setCenterTextSize(20f)
         pieChart!!.description.isEnabled = false
 
@@ -116,7 +133,6 @@ class MainActivity : AppCompatActivity() {
         //kahit same categories
 
         // entries.clear(); <- clear entries
-        // pieChart.invalidate(); <- refresh
 
         val colors = ArrayList<Int>()
         for (color in MY_COLORS) {
@@ -127,6 +143,7 @@ class MainActivity : AppCompatActivity() {
 
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
+
         val data = PieData(dataSet)
         data.setDrawValues(true)
         data.setValueFormatter(PercentFormatter(pieChart))
