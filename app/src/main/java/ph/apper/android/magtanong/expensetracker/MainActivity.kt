@@ -53,32 +53,8 @@ class MainActivity : AppCompatActivity() {
     private var pieChart: PieChart? = null
     var categs = arrayOf("Needs", "Wants", "Savings", "Investments", "Others")
     var totals = floatArrayOf(0F, 0F, 0F, 0F, 0F)
+    var entriesHashMap = HashMap<String, Float>()
     var entries = ArrayList<PieEntry>()
-
-
-    fun populateEntries(){
-        entries.add(PieEntry(totals[0], categs[0]))
-        entries.add(PieEntry(totals[1], categs[1]))
-        entries.add(PieEntry(totals[2], categs[2]))
-        entries.add(PieEntry(totals[3], categs[3]))
-        entries.add(PieEntry(totals[4], categs[4]))
-    }
-
-    /*
-    fun populateEntries() {
-        for (i in categs.indices) {
-            if (totals[i] > 0F) {
-                entries.add(PieEntry(totals[i], categs[i]))
-            } else {
-                entries.add(PieEntry(totals[i], ""))
-            }
-        }
-    }
-    */
-
-    fun populateEntries(totals:Float, categs:String) {
-        entries.add(PieEntry(totals, categs))
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,7 +62,6 @@ class MainActivity : AppCompatActivity() {
 
         pieChart = findViewById(R.id.chart_pie)
 
-        populateEntries()
         setupPieChart()
         loadPieChartData()
 
@@ -116,6 +91,7 @@ class MainActivity : AppCompatActivity() {
         pieChart!!.setEntryLabelColor(Color.WHITE)
         pieChart!!.setEntryLabelTypeface(nhg_bold)
         pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
+
         pieChart!!.setCenterTextSize(20f)
         pieChart!!.description.isEnabled = false
 
@@ -125,14 +101,13 @@ class MainActivity : AppCompatActivity() {
 
     // load data
     private fun loadPieChartData() {
-        for (i in categs.indices) {
-            var entry = PieEntry(totals[i], categs[i])
-            entries.set(i, entry)
+        entries.clear()
+        for (i in categs.indices){
+            if (totals[i] > 0F){
+                var entry = PieEntry(entriesHashMap.getValue(categs[i]), categs[i])
+                entries.add(entry)
+            }
         }
-        //--binago ko kasi kapag add entry lagi, nagkakaroon ng bagong entries
-        //kahit same categories
-
-        // entries.clear(); <- clear entries
 
         val colors = ArrayList<Int>()
         for (color in MY_COLORS) {
@@ -143,7 +118,6 @@ class MainActivity : AppCompatActivity() {
 
         val dataSet = PieDataSet(entries, "")
         dataSet.colors = colors
-
         val data = PieData(dataSet)
         data.setDrawValues(true)
         data.setValueFormatter(PercentFormatter(pieChart))
@@ -155,13 +129,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun updatePieChart(amount:Float, category: String) {
-        when (category) {
-            "Needs" -> totals[0] += amount
-            "Wants" -> totals[1] += amount
-            "Savings" -> totals[2] += amount
-            "Investment" -> totals[3] += amount
-            "Others" -> totals[4] += amount
-        }
+        var i = categs.indexOf(category)
+        entriesHashMap[category] = totals[i] + amount
+        totals[i] += amount
+
         loadPieChartData()
     }
 
