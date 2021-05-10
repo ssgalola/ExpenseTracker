@@ -90,7 +90,7 @@ class PieFragment : Fragment() {
         pieChart!!.description.isEnabled = false
 
         pieChart!!.setNoDataText("Please add expenses.")
-        pieChart!!.setNoDataTextColor(Color.BLACK)
+        pieChart!!.setNoDataTextColor(Color.WHITE)
         pieChart!!.setNoDataTextTypeface(nhg_bold)
 
         pieChart!!.setTouchEnabled(false)
