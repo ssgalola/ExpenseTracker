@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
         pieChart = findViewById(R.id.chart_pie)
 
         setupPieChart()
-        loadPieChartData()
 
         // open 'add expense' dialog window
         fab_add.setOnClickListener {
@@ -94,6 +93,10 @@ class MainActivity : AppCompatActivity() {
 
         pieChart!!.setCenterTextSize(20f)
         pieChart!!.description.isEnabled = false
+
+        pieChart!!.setNoDataText("Please add expenses")
+        pieChart!!.setNoDataTextColor(Color.BLACK)
+        pieChart!!.setNoDataTextTypeface(nhg_bold)
 
         val l = pieChart!!.legend
         l.isEnabled = false
