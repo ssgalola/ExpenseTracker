@@ -91,7 +91,6 @@ class MainActivity : AppCompatActivity() {
         pieChart!!.setEntryLabelTypeface(nhg_bold)
         pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
 
-        pieChart!!.setCenterTextSize(20f)
         pieChart!!.description.isEnabled = false
 
         pieChart!!.setNoDataText("Please add expenses.")
@@ -105,10 +104,12 @@ class MainActivity : AppCompatActivity() {
     // load data
     private fun loadPieChartData() {
         entries.clear()
+        var total = 0F
         for (i in categs.indices){
             if (totals[i] > 0F){
                 var entry = PieEntry(entriesHashMap.getValue(categs[i]), categs[i])
                 entries.add(entry)
+                total += totals[i]
             }
         }
 
@@ -128,6 +129,10 @@ class MainActivity : AppCompatActivity() {
         data.setValueTextColor(Color.WHITE)
         data.setValueTypeface(nhg_roman)
         pieChart!!.data = data
+
+        pieChart!!.centerText = "Total:\n$total"
+        pieChart!!.setCenterTextSize(18f)
+
         pieChart!!.invalidate()
     }
 
