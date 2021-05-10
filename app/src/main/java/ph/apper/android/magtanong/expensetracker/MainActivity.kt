@@ -14,10 +14,9 @@ import android.widget.Toast
 import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anychart.charts.Pie
+import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_main.*
@@ -55,6 +54,12 @@ class MainActivity : AppCompatActivity() {
     var totals = floatArrayOf(0F, 0F, 0F, 0F, 0F)
     var entriesHashMap = HashMap<String, Float>()
     var entries = ArrayList<PieEntry>()
+
+    // <--bar chart code-->
+    private var barChart: BarChart? = null
+    var entriesMonth = ArrayList<BarEntry>()
+    var months = floatArrayOf(1F, 2F, 3F, 4F, 5F, 6F, 7F, 8F, 9F, 10F, 11F, 12F) // float dapat data type talaga
+    var monthTotals = floatArrayOf(200F, 300F, 100F, 400F, 250F, 300F, 200F, 300F, 100F, 400F, 250F, 300F)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -153,5 +158,19 @@ class MainActivity : AppCompatActivity() {
         val intentFilter = IntentFilter()
         intentFilter.addAction("ph.apper.android.api.broadcast.SENDEXPENSE")
         registerReceiver(receiver, intentFilter)
+    }
+
+    // <--bar chart code-->
+    private fun loadBarChartData() {
+        for (i in months.indices) {
+            entriesMonth.add(BarEntry(months[i], monthTotals[i]))
+        }
+
+        val dataSet = BarDataSet(entriesMonth, "Months")
+        val data = BarData()
+
+        data.addDataSet(dataSet)
+        barChart!!.data = data
+        barChart!!.invalidate()
     }
 }

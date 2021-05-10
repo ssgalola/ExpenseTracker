@@ -17,14 +17,10 @@
         android:backgroundTint="@color/white"
         android:background="@drawable/bg_round">
 
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/chart_pie"
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"/>
 
     </androidx.cardview.widget.CardView>
 
