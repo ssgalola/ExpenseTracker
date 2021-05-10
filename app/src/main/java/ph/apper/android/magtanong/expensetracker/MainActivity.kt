@@ -21,6 +21,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_main.*
 import ph.apper.android.magtanong.expensetracker.adapter.ExpenseAdapter
+import ph.apper.android.magtanong.expensetracker.adapter.FragmentAdapter
 import ph.apper.android.magtanong.expensetracker.model.Expense
 import ph.apper.android.magtanong.expensetracker.model.ExpenseCategory
 import ph.apper.android.magtanong.expensetracker.model.MY_COLORS
@@ -38,6 +39,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    lateinit var fragmentAdapter: FragmentAdapter
+
+    val pieFragment = PieFragment()
+    val barFragment = BarFragment()
+
     private val receiver = object : BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
             var expenseAmount: Float? = intent!!.getFloatExtra("Expense Amount", 0F)
@@ -45,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
             Log.d("amount", expenseAmount.toString())
             Log.d("category", expenseCategory.toString())
-            updatePieChart(expenseAmount.toString().toFloat(), expenseCategory.toString())
+//            updatePieChart(expenseAmount.toString().toFloat(), expenseCategory.toString())
         }
     }
 
@@ -65,9 +71,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        pieChart = findViewById(R.id.chart_pie)
+//        pieChart = findViewById(R.id.chart_pie)
 
-        setupPieChart()
+//        setupPieChart()
+
+        fragmentAdapter = FragmentAdapter(supportFragmentManager)
+        fragmentAdapter.add(pieFragment, "Pie Chart")
+        fragmentAdapter.add(barFragment, "Bar Graph")
+        view_pager.adapter = fragmentAdapter
 
         // open 'add expense' dialog window
         fab_add.setOnClickListener {
@@ -84,70 +95,70 @@ class MainActivity : AppCompatActivity() {
     }
 
     // format pie chart
-    private fun setupPieChart() {
-        var nhg_bold: Typeface? = ResourcesCompat.getFont(this.applicationContext, R.font.nhg_bold)
-
-        pieChart!!.isDrawHoleEnabled = true
-        pieChart!!.holeRadius = 50F
-        pieChart!!.transparentCircleRadius = 53F
-        pieChart!!.setUsePercentValues(true)
-        pieChart!!.setEntryLabelTextSize(10f)
-        pieChart!!.setEntryLabelColor(Color.WHITE)
-        pieChart!!.setEntryLabelTypeface(nhg_bold)
-        pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
-
-        pieChart!!.description.isEnabled = false
-
-        pieChart!!.setNoDataText("Please add expenses.")
-        pieChart!!.setNoDataTextColor(Color.BLACK)
-        pieChart!!.setNoDataTextTypeface(nhg_bold)
-
-        val l = pieChart!!.legend
-        l.isEnabled = false
-    }
-
-    // load data
-    private fun loadPieChartData() {
-        entries.clear()
-        var total = 0F
-        for (i in categs.indices){
-            if (totals[i] > 0F){
-                var entry = PieEntry(entriesHashMap.getValue(categs[i]), categs[i])
-                entries.add(entry)
-                total += totals[i]
-            }
-        }
-
-        val colors = ArrayList<Int>()
-        for (color in MY_COLORS) {
-            colors.add(color)
-        }
-
-        var nhg_roman: Typeface? = ResourcesCompat.getFont(this.applicationContext, R.font.nhg_roman)
-
-        val dataSet = PieDataSet(entries, "")
-        dataSet.colors = colors
-        val data = PieData(dataSet)
-        data.setDrawValues(true)
-        data.setValueFormatter(PercentFormatter(pieChart))
-        data.setValueTextSize(12f)
-        data.setValueTextColor(Color.WHITE)
-        data.setValueTypeface(nhg_roman)
-        pieChart!!.data = data
-
-        pieChart!!.centerText = "Total:\n$total"
-        pieChart!!.setCenterTextSize(18f)
-
-        pieChart!!.invalidate()
-    }
-
-    fun updatePieChart(amount:Float, category: String) {
-        var i = categs.indexOf(category)
-        entriesHashMap[category] = totals[i] + amount
-        totals[i] += amount
-
-        loadPieChartData()
-    }
+//    private fun setupPieChart() {
+//        var nhg_bold: Typeface? = ResourcesCompat.getFont(this.applicationContext, R.font.nhg_bold)
+//
+//        pieChart!!.isDrawHoleEnabled = true
+//        pieChart!!.holeRadius = 50F
+//        pieChart!!.transparentCircleRadius = 53F
+//        pieChart!!.setUsePercentValues(true)
+//        pieChart!!.setEntryLabelTextSize(10f)
+//        pieChart!!.setEntryLabelColor(Color.WHITE)
+//        pieChart!!.setEntryLabelTypeface(nhg_bold)
+//        pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
+//
+//        pieChart!!.description.isEnabled = false
+//
+//        pieChart!!.setNoDataText("Please add expenses.")
+//        pieChart!!.setNoDataTextColor(Color.BLACK)
+//        pieChart!!.setNoDataTextTypeface(nhg_bold)
+//
+//        val l = pieChart!!.legend
+//        l.isEnabled = false
+//    }
+//
+//    // load data
+//    private fun loadPieChartData() {
+//        entries.clear()
+//        var total = 0F
+//        for (i in categs.indices){
+//            if (totals[i] > 0F){
+//                var entry = PieEntry(entriesHashMap.getValue(categs[i]), categs[i])
+//                entries.add(entry)
+//                total += totals[i]
+//            }
+//        }
+//
+//        val colors = ArrayList<Int>()
+//        for (color in MY_COLORS) {
+//            colors.add(color)
+//        }
+//
+//        var nhg_roman: Typeface? = ResourcesCompat.getFont(this.applicationContext, R.font.nhg_roman)
+//
+//        val dataSet = PieDataSet(entries, "")
+//        dataSet.colors = colors
+//        val data = PieData(dataSet)
+//        data.setDrawValues(true)
+//        data.setValueFormatter(PercentFormatter(pieChart))
+//        data.setValueTextSize(12f)
+//        data.setValueTextColor(Color.WHITE)
+//        data.setValueTypeface(nhg_roman)
+//        pieChart!!.data = data
+//
+//        pieChart!!.centerText = "Total:\n$total"
+//        pieChart!!.setCenterTextSize(18f)
+//
+//        pieChart!!.invalidate()
+//    }
+//
+//    fun updatePieChart(amount:Float, category: String) {
+//        var i = categs.indexOf(category)
+//        entriesHashMap[category] = totals[i] + amount
+//        totals[i] += amount
+//
+//        loadPieChartData()
+//    }
 
     override fun onDestroy() {
         unregisterReceiver(receiver)
