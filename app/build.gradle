@@ -56,4 +56,7 @@ dependencies {
     // MP Pie Chart
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
+    // Joda time
+    implementation 'joda-time:joda-time:2.9.4'
+
 }

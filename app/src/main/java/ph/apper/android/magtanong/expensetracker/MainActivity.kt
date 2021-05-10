@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
         pieChart!!.setCenterTextSize(20f)
         pieChart!!.description.isEnabled = false
 
-        pieChart!!.setNoDataText("Please add expenses")
+        pieChart!!.setNoDataText("Please add expenses.")
         pieChart!!.setNoDataTextColor(Color.BLACK)
         pieChart!!.setNoDataTextTypeface(nhg_bold)
 
@@ -150,33 +150,3 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, intentFilter)
     }
 }
-
-
-/*
---ganto comments ni sharmaine--
-
-to-do:
-1. [fixed] show categories in spinner --sori nagawa ko na to bago ko nabasa notes ahu--
-2. [fixed] fix the main activity layout (the chart and recyclerview alignment is weird)
-    --pacheck nung sinend kong pie chart sa telegram paapprove lang boss then integrate ko--
-3. cardview layout
-4. night mode proof
-
-pag mas marami nang code:
-1. integrate pie chart with expense tracker data
-2. decouple pie chart code
-3. others
-
-gagawin ko dapat pero baka gusto mo (di ako nagpaparinig, inooffer ko talaga):
---dami pang sinabi gagawin ko naman talaga HAHA--
-1. UI tweaks
-2. change app icon
---pero ez lang naman to ako bahala--
-
---gusto ko sana mag add ng:
-1. delete all expenses per category
-2. delete all expenses
-3. edit expense (pero mahirap to so optional lang yan pag sinipag charot)
-4. warning na bawal empty ang expense and amount
-5. database (eto non-negotiable to gagawin ko talaga pero sa dulo na) --clown noises--
-*/

@@ -4,39 +4,50 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:layout_marginTop="3dp"
-    android:layout_marginBottom="3dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
     android:background="@drawable/bg_round">
 
     <TextView
         android:id="@+id/tv_expense_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="18dp"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:fontFamily="@font/nhg_roman"
-        android:paddingLeft="8dp"
-        android:paddingTop="5dp"/>
+        android:paddingLeft="10dp"
+        android:paddingTop="7dp"
+        android:layout_marginBottom="3dp"/>
 
     <TextView
         android:id="@+id/tv_category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/tv_expense_name"
+        android:textSize="14dp"
+        android:fontFamily="@font/nhg_roman"
+        android:paddingLeft="10dp"
+        android:layout_marginBottom="3dp"/>
+
+    <TextView
+        android:id="@+id/tv_datetime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_category"
         android:textSize="12dp"
         android:fontFamily="@font/nhg_roman"
-        android:paddingLeft="8dp"
-        android:paddingBottom="5dp"/>
+        android:paddingLeft="10dp"
+        android:paddingBottom="7dp"/>
 
     <TextView
         android:id="@+id/tv_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="18dp"
         android:layout_alignParentRight="true"
         android:fontFamily="@font/nhg_roman"
-        android:paddingRight="8dp"
-        android:paddingTop="5dp"/>
+        android:paddingRight="10dp"
+        android:paddingTop="7dp"/>
 
 </RelativeLayout>

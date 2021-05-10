@@ -8,7 +8,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.DialogFragment
+import com.anychart.scales.DateTime
 import kotlinx.android.synthetic.main.fragment_add_expense.*
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 import ph.apper.android.magtanong.expensetracker.model.Expense
@@ -37,25 +40,39 @@ class  AddExpenseDialog : DialogFragment() {
             dismiss()
         }
 
-        view.btn_add.setOnClickListener {
-
+        view.findViewById<Button>(R.id.btn_add).setOnClickListener {
             var expense_name = et_add_expense.text.toString()
             var amount = et_add_amount.text.toString()
             var category = spinner_categ.selectedItem as String
 
-            Log.d("amount @ btn", amount.toString())
+            if(expense_name.isEmpty()){
+                et_add_expense.error = "Expense name is required."
+                et_add_expense.requestFocus()
+                return@setOnClickListener
+            }
+            if(amount.isEmpty()) {
+                et_add_amount.error = "Amount is required."
+                et_add_amount.requestFocus()
+                return@setOnClickListener
+            }
 
-            var expense = Expense(expense_name, amount.toFloat(), ExpenseCategory.getCategory(category))
-            addExpense(expense)
+            if (amount.toFloat() == 0F){
+                et_add_amount.error = "Amount must be greater than zero."
+                et_add_amount.requestFocus()
+                return@setOnClickListener
+            }
 
-            broadcastExpense(expense)
+            if(expense_name.isNotEmpty() and amount.isNotEmpty()) {
+                var expense = Expense(expense_name,
+                                      amount.toFloat(),
+                                      ExpenseCategory.getCategory(category),
+                                      org.joda.time.DateTime.now().toString("MM/dd/yyyy hh:mm a"))
 
-            dismiss()
-
-            // logic where the expenses get added to the database
-            //--saka na database, implement ko muna yung pag add into items sa recycler view
+                addExpense(expense)
+                broadcastExpense(expense)
+                dismiss()
+            }
         }
-
         return view
     }
 
@@ -100,6 +117,7 @@ class  AddExpenseDialog : DialogFragment() {
             it.setAction("ph.apper.android.api.broadcast.SENDEXPENSE")
             it.putExtra("Expense Amount", expense.amount)
             it.putExtra("Expense Category", expense.category.toString())
+            it.putExtra("Expense DateTime", expense.datetime.toString())
             context!!.sendBroadcast(it)
 
             Log.d("amount@broadcastExpense", expense.amount.toString())

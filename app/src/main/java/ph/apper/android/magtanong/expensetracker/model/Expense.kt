@@ -3,12 +3,19 @@ package ph.apper.android.magtanong.expensetracker.model
 import android.graphics.Color
 import android.graphics.Typeface
 import androidx.core.content.res.ResourcesCompat
+import com.anychart.scales.DateTime
 import ph.apper.android.magtanong.expensetracker.R
+import java.time.Clock
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.LocalTime
 
-data class Expense(val expense:String, var amount:Float, var category:ExpenseCategory) {
+data class Expense(val expense:String,
+                   var amount:Float,
+                   var category:ExpenseCategory,
+                   val datetime: String) {
 
-    // just copied this from ShowTracker, di ko alam ginagawa nito
-    constructor() : this("", 0F, ExpenseCategory.Others)
+    constructor() : this("", 0F, ExpenseCategory.Others, "")
 }
 
 enum class ExpenseCategory {
@@ -31,10 +38,10 @@ enum class ExpenseCategory {
 }
 
 val MY_COLORS = intArrayOf(
+    Color.rgb(185, 66, 255),
     Color.rgb(163, 63, 209),
+    Color.rgb(157, 0, 249),
     Color.rgb(108, 0, 158),
-    Color.rgb(154, 100, 179),
-    Color.rgb(57, 21, 74),
-    Color.rgb(114, 97, 122))
+    Color.rgb(67, 0, 107))
 
 
