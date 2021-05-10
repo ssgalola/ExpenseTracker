@@ -9,13 +9,14 @@ import ph.apper.android.magtanong.expensetracker.model.Expense
 class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private val DATABASE_VERSION = 1
+        private val DATABASE_VERSION = 2
         private val DATABASE_NAME = "expenseTrackerDB"
         private val TABLE_EXPENSES = "expensesTable"
         private val KEY_ID = "id"
         private val KEY_EXPENSE = "expense"
         private val KEY_CATEGORY = "category"
         private val KEY_AMOUNT = "amount"
+        private val KEY_DATETIME = "datetime"
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -24,8 +25,9 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
                         KEY_ID + " INTEGER PRIMARY KEY," +
                         KEY_EXPENSE + " TEXT," +
                         KEY_CATEGORY + " TEXT," +
-                        KEY_AMOUNT + " FLOAT" +
-                        ")")
+                        KEY_AMOUNT + " FLOAT," +
+                        KEY_DATETIME + " TEXT" +
+                        ");")
 
         db?.execSQL(CREATE_EXPENSES_TABLE)
     }
@@ -35,15 +37,18 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
-    fun addExpense(expenseData: Expense): Long {
+    fun addExpense(expense: String, amount: Float, category: String, datetime: String, id: Int)
+        : Long {
+
         val db = this.writableDatabase
         val contentValues = ContentValues()
 
         // populate data
-        //contentValues.put(KEY_ID, expenseData.id)
-        contentValues.put(KEY_EXPENSE, expenseData.expense)
-        contentValues.put(KEY_CATEGORY, expenseData.category.toString())
-        contentValues.put(KEY_AMOUNT, expenseData.amount)
+        contentValues.put(KEY_ID, id)
+        contentValues.put(KEY_EXPENSE, expense)
+        contentValues.put(KEY_CATEGORY, category)
+        contentValues.put(KEY_AMOUNT, amount)
+        contentValues.put(KEY_DATETIME, datetime)
 
         // insert row
         val success = db.insert(TABLE_EXPENSES, null, contentValues)

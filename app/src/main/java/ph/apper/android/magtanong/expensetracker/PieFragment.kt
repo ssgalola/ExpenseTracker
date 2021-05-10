@@ -64,13 +64,6 @@ class PieFragment : Fragment() {
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-//        pieChart = view.findViewById(R.id.chart_pie)
-//        setupPieChart()
-    }
-
     override fun onDestroyView() {
         activity!!.unregisterReceiver(receiver)
         super.onDestroyView()
@@ -84,8 +77,6 @@ class PieFragment : Fragment() {
 
     private fun setupPieChart() {
         var nhg_bold: Typeface? = ResourcesCompat.getFont(context!!.applicationContext, R.font.nhg_bold)
-
-//        val nhg_bold = Typeface.createFromAsset(activity!!.assets, "font/nhg_bold.ttf")
 
         pieChart!!.isDrawHoleEnabled = true
         pieChart!!.holeRadius = 50F

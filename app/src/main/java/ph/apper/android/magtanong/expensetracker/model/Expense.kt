@@ -13,9 +13,10 @@ import java.time.LocalTime
 data class Expense(val expense:String,
                    var amount:Float,
                    var category:ExpenseCategory,
-                   val datetime: String) {
+                   val datetime: String,
+                   val id: Int) {
 
-    constructor() : this("", 0F, ExpenseCategory.Others, "")
+    constructor() : this("", 0F, ExpenseCategory.Others, "", 0)
 }
 
 enum class ExpenseCategory {
