@@ -39,9 +39,13 @@ class PieFragment : Fragment() {
         override fun onReceive(context: Context?, intent: Intent?) {
             var expenseAmount: Float? = intent!!.getFloatExtra("Expense Amount", 0F)
             var expenseCategory: String? = intent!!.getStringExtra("Expense Category")
+            var expenseDateTime: String? = intent!!.getStringExtra("Expense DateTime")
+
+
 
             Log.d("amount", expenseAmount.toString())
             Log.d("category", expenseCategory.toString())
+            Log.d("datetime", expenseDateTime.toString())
             updatePieChart(expenseAmount.toString().toFloat(), expenseCategory.toString())
         }
     }
