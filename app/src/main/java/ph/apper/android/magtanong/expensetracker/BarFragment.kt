@@ -102,5 +102,7 @@ class BarFragment : Fragment() {
 /*
 to-do:
 1. fix UI of bar chart
-2. pwede ba white & purple ulit yung theme
+2. pwede ba white & purple ulit yung theme --GGGG
+
+paalis ng grid and kahit x axis na lang
 */

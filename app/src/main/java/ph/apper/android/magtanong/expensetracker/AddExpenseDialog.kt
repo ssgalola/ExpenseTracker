@@ -29,8 +29,6 @@ class  AddExpenseDialog : DialogFragment() {
         }
     }
 
-    var expenseId = 0
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -68,12 +66,10 @@ class  AddExpenseDialog : DialogFragment() {
                 var expense = Expense(expense_name,
                                       amount.toFloat(),
                                       ExpenseCategory.getCategory(category),
-                                      org.joda.time.DateTime.now().toString("MM/dd/yyyy hh:mm a"),
-                                      expenseId)
+                                      org.joda.time.DateTime.now().toString("MM/dd/yyyy hh:mm a"))
 
                 addExpense(expense)
                 broadcastExpense(expense)
-                expenseId += 1
                 dismiss()
             }
         }
@@ -123,10 +119,7 @@ class  AddExpenseDialog : DialogFragment() {
             it.putExtra("Expense Amount", expense.amount)
             it.putExtra("Expense Category", expense.category.toString())
             it.putExtra("Expense DateTime", expense.datetime)
-            it.putExtra("Expense ID", expense.id)
             context!!.sendBroadcast(it)
-
-            Log.d("amount@broadcastExpense", expense.amount.toString())
         }
     }
 }

@@ -9,7 +9,7 @@ import ph.apper.android.magtanong.expensetracker.model.Expense
 class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
     companion object {
-        private val DATABASE_VERSION = 2
+        private val DATABASE_VERSION = 15
         private val DATABASE_NAME = "expenseTrackerDB"
         private val TABLE_EXPENSES = "expensesTable"
         private val KEY_ID = "id"
@@ -22,7 +22,7 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
     override fun onCreate(db: SQLiteDatabase?) {
         val CREATE_EXPENSES_TABLE =
                 ("CREATE TABLE " + TABLE_EXPENSES + "(" +
-                        KEY_ID + " INTEGER PRIMARY KEY," +
+                        KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                         KEY_EXPENSE + " TEXT," +
                         KEY_CATEGORY + " TEXT," +
                         KEY_AMOUNT + " FLOAT," +
@@ -37,14 +37,14 @@ class DatabaseHandler(context: Context): SQLiteOpenHelper(context, DATABASE_NAME
         onCreate(db)
     }
 
-    fun addExpense(expense: String, amount: Float, category: String, datetime: String, id: Int)
+    fun addExpense(expense: String, amount: Float, category: String, datetime: String)
         : Long {
 
         val db = this.writableDatabase
         val contentValues = ContentValues()
 
         // populate data
-        contentValues.put(KEY_ID, id)
+//        contentValues.put(KEY_ID)
         contentValues.put(KEY_EXPENSE, expense)
         contentValues.put(KEY_CATEGORY, category)
         contentValues.put(KEY_AMOUNT, amount)

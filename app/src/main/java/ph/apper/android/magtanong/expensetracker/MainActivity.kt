@@ -52,16 +52,11 @@ class MainActivity : AppCompatActivity() {
             var expenseAmount: Float? = intent!!.getFloatExtra("Expense Amount", 0F)
             var expenseCategory: String? = intent!!.getStringExtra("Expense Category")
             var expenseDateTime: String? = intent!!.getStringExtra("Expense DateTime")
-            var expenseId: Int? = intent!!.getIntExtra("Expense ID", 0)
 
             saveExpenseDB(expenseName.toString(),
                           expenseAmount.toString().toFloat(),
                           expenseCategory.toString(),
-                          expenseDateTime.toString(),
-                          expenseId.toString().toInt())
-
-            Log.d("bcast name", expenseName.toString())
-            Log.d("bcast amount", expenseAmount.toString())
+                          expenseDateTime.toString())
         }
     }
 
@@ -76,7 +71,6 @@ class MainActivity : AppCompatActivity() {
 
         fab_add.setOnClickListener {
             var dialog = AddExpenseDialog()
-
             dialog.show(supportFragmentManager, "addExpense")
         }
 
@@ -98,15 +92,14 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, intentFilter)
     }
 
-    fun saveExpenseDB(expense: String, amount: Float, category: String, datetime: String, id: Int) {
-        val id = id
+    fun saveExpenseDB(expense: String, amount: Float, category: String, datetime: String) {
         val expense = expense
         val amount = amount
         val category = category
         val datetime = datetime
         val databaseHandler = DatabaseHandler(this)
 
-        val status = databaseHandler.addExpense(expense, amount, category, datetime, id)
+        val status = databaseHandler.addExpense(expense, amount, category, datetime)
         if (status > -1) {
             Toast.makeText(applicationContext, "Expense recorded.", Toast.LENGTH_SHORT).show()
         }
