@@ -4,30 +4,14 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.graphics.Color
-import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Window
 import android.widget.Toast
-import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.anychart.charts.Pie
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.*
-import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.ColorTemplate
 import kotlinx.android.synthetic.main.activity_main.*
-import org.joda.time.DateTime
 import ph.apper.android.magtanong.expensetracker.adapter.ExpenseAdapter
 import ph.apper.android.magtanong.expensetracker.adapter.FragmentAdapter
 import ph.apper.android.magtanong.expensetracker.database.DatabaseHandler
-import ph.apper.android.magtanong.expensetracker.model.Expense
-import ph.apper.android.magtanong.expensetracker.model.ExpenseCategory
-import ph.apper.android.magtanong.expensetracker.model.MY_COLORS
-import java.util.ArrayList
 
 class MainActivity : AppCompatActivity() {
 

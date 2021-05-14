@@ -4,16 +4,19 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
-import com.anychart.core.gauge.pointers.Bar
 import com.github.mikephil.charting.charts.BarChart
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import org.joda.time.DateTime
+import ph.apper.android.magtanong.expensetracker.model.MY_COLORS_BAR
 import java.util.ArrayList
 
 class BarFragment : Fragment() {
@@ -66,7 +69,26 @@ class BarFragment : Fragment() {
     }
 
     private fun setupBarChart() {
-        barChart!!.setNoDataText("Bar Chart")
+        var nhg_bold: Typeface? = ResourcesCompat.getFont(context!!.applicationContext, R.font.nhg_bold)
+
+        var left: YAxis = barChart!!.getAxis(YAxis.AxisDependency.LEFT)
+        var right: YAxis = barChart!!.getAxis(YAxis.AxisDependency.RIGHT)
+
+        barChart!!.setDrawGridBackground(false)
+        barChart!!.setDrawBorders(false)
+        barChart!!.xAxis.setDrawGridLines(false)
+        barChart!!.xAxis.setDrawLabels(true)
+        barChart!!.xAxis.setDrawAxisLine(false)
+        barChart!!.xAxis.typeface = nhg_bold
+        barChart!!.description.isEnabled = false
+
+        left.setDrawGridLines(false)
+        left.setDrawAxisLine(false)
+        left.setDrawLabels(false)
+
+        right.setDrawGridLines(false)
+        right.setDrawAxisLine(false)
+        right.setDrawLabels(false)
 
         val l = barChart!!.legend
         l.isEnabled = false
@@ -78,12 +100,20 @@ class BarFragment : Fragment() {
             entries.add(BarEntry(months[i], totals[i]))
         }
 
-        Log.d("entries", entries.toString())
+        val colors = ArrayList<Int>()
+        for (color in MY_COLORS_BAR) {
+            colors.add(color)
+        }
+
+        var nhg_roman: Typeface? = ResourcesCompat.getFont(context!!.applicationContext, R.font.nhg_roman)
 
         val dataSet = BarDataSet(entries, "Months")
+        dataSet.colors = colors
         val data = BarData()
-
         data.addDataSet(dataSet)
+        data.setDrawValues(true)
+        data.setValueTextSize(12f)
+        data.setValueTypeface(nhg_roman)
 
         barChart!!.data = data
         barChart!!.invalidate()

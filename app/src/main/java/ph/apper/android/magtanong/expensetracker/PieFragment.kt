@@ -7,7 +7,6 @@ import android.content.IntentFilter
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,8 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.data.PieEntry
 import com.github.mikephil.charting.formatter.PercentFormatter
-import ph.apper.android.magtanong.expensetracker.model.MY_COLORS
+import ph.apper.android.magtanong.expensetracker.model.MY_COLORS_PIE
+import ph.apper.android.magtanong.expensetracker.model.lightGrey
 import java.util.*
 import kotlin.collections.HashMap
 import kotlin.collections.getValue
@@ -85,6 +85,7 @@ class PieFragment : Fragment() {
         pieChart!!.setEntryLabelColor(Color.WHITE)
         pieChart!!.setEntryLabelTypeface(nhg_bold)
         pieChart!!.setCenterTextTypeface(Typeface.DEFAULT_BOLD)
+        pieChart!!.setHoleColor(lightGrey)
 
         pieChart!!.description.isEnabled = false
 
@@ -111,7 +112,7 @@ class PieFragment : Fragment() {
         }
 
         val colors = ArrayList<Int>()
-        for (color in MY_COLORS) {
+        for (color in MY_COLORS_PIE) {
             colors.add(color)
         }
 
