@@ -6,17 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.DialogFragment
 import com.anychart.scales.DateTime
 import kotlinx.android.synthetic.main.fragment_add_expense.*
 import kotlinx.android.synthetic.main.fragment_add_expense.view.*
 import ph.apper.android.magtanong.expensetracker.model.Expense
 import ph.apper.android.magtanong.expensetracker.model.ExpenseCategory
-import java.util.ArrayList
+import java.util.*
 
 class  AddExpenseDialog : DialogFragment() {
 
@@ -35,6 +32,17 @@ class  AddExpenseDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         var view: View = inflater.inflate(R.layout.fragment_add_expense, container, false)
+
+        var expenseDate = ""
+        val datePicker = view.findViewById<DatePicker>(R.id.date_picker)
+        val today = Calendar.getInstance()
+        datePicker.init(today.get(Calendar.YEAR), today.get(Calendar.MONTH),
+            today.get(Calendar.DAY_OF_MONTH)
+
+        ) { view, year, month, day ->
+            val month = month + 1
+            expenseDate = "$month/$day/$year"
+        }
 
         view.btn_cancel.setOnClickListener {
             dismiss()
@@ -66,7 +74,7 @@ class  AddExpenseDialog : DialogFragment() {
                 var expense = Expense(expense_name,
                                       amount.toFloat(),
                                       ExpenseCategory.getCategory(category),
-                                      org.joda.time.DateTime.now().toString("MM/dd/yyyy hh:mm a"))
+                                      expenseDate)
 
                 addExpense(expense)
                 broadcastExpense(expense)

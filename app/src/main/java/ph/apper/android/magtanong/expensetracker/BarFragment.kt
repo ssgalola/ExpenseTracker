@@ -31,11 +31,15 @@ class BarFragment : Fragment() {
         override fun onReceive(context: Context?, intent: Intent?) {
             var expenseAmount: Float? = intent!!.getFloatExtra("Expense Amount", 0F)
             var expenseCategory: String? = intent!!.getStringExtra("Expense Category")
-            var expenseMonth = DateTime.now().monthOfYear.toFloat()
+            var expenseMonth = intent!!.getStringExtra("Expense DateTime")
+            var strExpenseMonth = expenseMonth.toString().take(2)
+            if (strExpenseMonth[1] ==  '/'){
+                strExpenseMonth = strExpenseMonth[0].toString()
+            }
 
-            Log.d("bar_amount", expenseAmount.toString())
+            Log.d("bar_date", expenseMonth.toString())
 
-            updateBarChart(expenseAmount.toString().toFloat(), expenseMonth)
+            updateBarChart(expenseAmount.toString().toFloat(), strExpenseMonth.toFloat())
         }
     }
 
